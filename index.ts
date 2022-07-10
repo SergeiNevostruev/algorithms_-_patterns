@@ -1,0 +1,22 @@
+import { SinglyLinkedList } from "./src/structures/singly_linked_list";
+
+const list = new SinglyLinkedList("первый узел");
+// console.log(list.getHead());
+list.pushBack("Второй узел");
+list.pushBack("Третий узел");
+list.pushBack("Четвертый узел");
+// console.log(list.getTail());
+// console.log(list.getSize());
+// console.log(list.getHead());
+list.popBack();
+list.popBack();
+// list.popBack();
+// list.popBack();
+// list.popBack();
+// console.log(list.getHead());
+// console.log(list.getTail());
+// console.log(list.getSize());
+list.pushFront("Нулевой узел");
+console.log(list.getHead());
+console.log(list.getTail());
+console.log(list.getSize());
