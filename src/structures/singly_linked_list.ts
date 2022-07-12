@@ -221,4 +221,32 @@ export class SinglyLinkedList<T> implements ISinglyLinkedList<T> {
       if (changeNode) changeNode.key--;
     }
   }
+
+  reverseList_2(): void {
+    if (this.empty()) {
+      console.log(new Error("List is empty"));
+    }
+    if (this.head === this.tail) return;
+
+    this.tail = this.head;
+
+    let node = this.head?.next;
+
+    let prev = this.head;
+
+    while (node !== null) {
+      if (node?.next === null) {
+        this.head = node;
+      }
+      let current = node;
+
+      node = node?.next;
+
+      if (current) {
+        current.next = prev;
+        prev = current;
+      }
+    }
+    this.tail!.next = null;
+  }
 }
