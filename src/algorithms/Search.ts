@@ -2,8 +2,8 @@ interface ISearchArray {
   linear(arr: Array<number>, searchNum: number): number; // O(n), для любого массива
   binary(arr: Array<number>, searchNum: number): number; // O(log n) для сортированного массива по возрастанию
   jumping(arr: Array<number>, searchNum: number): number; // O(sqrt(n)) для сортированного массива по возрастанию
-  //   interpolation(arr: Array<number>, searchNum: number): number;
-  //   exponential(arr: Array<number>, searchNum: number): number;
+  interpolation(arr: Array<number>, searchNum: number): number; // O(log n) для сортированного массива по возрастанию
+  exponential(arr: Array<number>, searchNum: number): number; // O(log n) для сортированного массива по возрастанию
 }
 
 export class SearchArray implements ISearchArray {
@@ -47,5 +47,32 @@ export class SearchArray implements ISearchArray {
       i++;
     }
     return -1;
+  }
+  interpolation(arr: number[], searchNum: number): number {
+    let left = 0;
+    let right = arr.length - 1;
+    let index: number;
+    while (left <= right && searchNum >= arr[left] && searchNum <= arr[right]) {
+      index =
+        left +
+        Math.ceil(
+          ((searchNum - arr[left]) * (right - left)) / (arr[right] - arr[left])
+        );
+      if (arr[index] == searchNum) return index;
+      if (arr[index] < searchNum) {
+        left = index + 1;
+      } else {
+        right = index - 1;
+      }
+    }
+    return -1;
+  }
+  exponential(arr: number[], searchNum: number): number {
+    if (arr[0] === searchNum) return 0;
+    let index = 1;
+    while (index < arr.length && arr[index] <= searchNum) {
+      index = index * 2;
+    }
+    return this.binary(arr.slice(index), searchNum);
   }
 }
