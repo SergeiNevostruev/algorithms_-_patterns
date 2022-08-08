@@ -1,5 +1,5 @@
 interface listNode<T> {
-  key: number;
+  key: number; // не обязательный параметр, по сути увеличивает время алгоритма, т.к. приходится его переопределять.
   payload: T;
   next: listNode<T> | null;
 }
@@ -228,25 +228,25 @@ export class SinglyLinkedList<T> implements ISinglyLinkedList<T> {
     }
     if (this.head === this.tail) return;
 
-    this.tail = this.head;
+    this.tail = this.head; // сохряем хвост, который равен начальному узлу --> потом она кроме присваивания в объекте нужна, чтобы в конце алгоритма присвоить в next null.
 
-    let node = this.head?.next;
+    let node = this.head?.next; // сохраняем указатель на второй узел, он будет рабочим узлом
 
-    let prev = this.head;
+    let prev = this.head; // сохраняем ссылку на предыдущий объект
 
     while (node !== null) {
       if (node?.next === null) {
         this.head = node;
       }
-      let current = node;
+      let current = node; // создаем временную ссылку на рабочий объект, для переопределения next у нее и присваивания ее в ссылку на предыдущее значение.
 
-      node = node?.next;
+      node = node?.next; // перемещаем ссылку на рабочий объект - на следующий по списку объект
 
       if (current) {
-        current.next = prev;
-        prev = current;
+        current.next = prev; //назначаем во временный объект ссылку next  на предыдущий объект.
+        prev = current; // предыдущий объект.
       }
     }
-    this.tail!.next = null;
+    this.tail!.next = null; // в конце алгоритма переопределяем у хвоста next
   }
 }

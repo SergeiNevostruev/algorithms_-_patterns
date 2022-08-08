@@ -1,3 +1,4 @@
+import numerical_algorithms from "./src/algorithms/numerical_algorithms";
 import { SinglyLinkedList } from "./src/structures/singly_linked_list";
 
 const list = new SinglyLinkedList("первый узел");
@@ -30,3 +31,4 @@ console.log(list.getHead());
 console.log(list.getTail());
 // list.erase(2);
 // console.log(list.getHead());
+console.log(numerical_algorithms.nod(8, 30));
