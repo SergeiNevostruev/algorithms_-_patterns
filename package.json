@@ -14,7 +14,8 @@
   "scripts": {
     "build": "npx tsc",
     "start": "ts-node index.ts",
-    "watch": "ts-node-dev --respawn index.ts"
+    "watch": "ts-node-dev --respawn index.ts",
+    "sort": "ts-node-dev --respawn src/works_test/sort.ts"
   },
   "author": "",
   "license": "ISC"
