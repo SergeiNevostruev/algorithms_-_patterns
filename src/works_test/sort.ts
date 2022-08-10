@@ -20,3 +20,8 @@ console.time("inserts_sort");
 const insertsArray = sort.inserts(array);
 console.timeEnd("inserts_sort");
 console.log("Сортировка вставками ====>", insertsArray);
+
+console.time("merge_sort");
+const mergeArray = sort.merge(array);
+console.timeEnd("merge_sort");
+console.log("Сортировка слиянием ====>", mergeArray);

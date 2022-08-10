@@ -2,7 +2,7 @@ interface ISortArray {
   bubble(ar: number[]): number[]; // пузырьком (возрастание), O(n2)
   selection(ar: number[]): number[]; // выбором O(n2)
   inserts(ar: number[]): number[]; // вставками O(n2)
-  //   merge(arr: number[]): number[]; // слиянием
+  merge(ar: number[]): number[]; // слиянием O(n * log n)
   //   gnome(arr: number[]): number[]; // гномья
   //   shell(arr: number[]): number[]; // Шелла
   //   counting(arr: number[]): number[]; // подсчетом
@@ -45,21 +45,35 @@ export class SortArray implements ISortArray {
   }
   inserts(ar: number[]): number[] {
     const arr = [...ar]; // антимутаген =)
-    let copy: number;
     if (arr.length <= 1) return arr;
-    let index = 1;
-    while (index < arr.length) {
-      copy = arr[index];
-      for (let i = index; i > 0; i--) {
-        if (arr[i - 1] <= copy) {
-          arr[i] = copy;
-          break;
-        } else {
-          arr[i] = arr[i - 1];
-        }
+    for (let i = 0; i < arr.length; i++) {
+      let copy = arr[i];
+      let j = i;
+      while (j > 0 && arr[j - 1] > copy) {
+        arr[j] = arr[j - 1];
+        j--;
       }
-      index++;
+      arr[j] = copy;
     }
     return arr;
+  }
+  merge2arr(arL: number[], arR: number[]) {
+    const sortedList = [];
+    while (arL.length && arR.length) {
+      if (arL[0] < arR[0]) {
+        sortedList.push(arL.shift());
+      } else {
+        sortedList.push(arR.shift());
+      }
+    }
+    return [...sortedList, ...arL, ...arR] as number[];
+  }
+  merge(ar: number[]): number[] {
+    const arr = [...ar]; // антимутаген =)
+    if (arr.length <= 1) return arr;
+    let mid = Math.ceil(arr.length / 2);
+    const arL = this.merge(arr.slice(0, mid));
+    const arR = this.merge(arr.slice(mid));
+    return this.merge2arr(arL, arR);
   }
 }
