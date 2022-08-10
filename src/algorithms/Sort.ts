@@ -3,9 +3,9 @@ interface ISortArray {
   selection(ar: number[]): number[]; // выбором O(n2)
   inserts(ar: number[]): number[]; // вставками O(n2)
   merge(ar: number[]): number[]; // слиянием O(n * log n)
-  //   gnome(arr: number[]): number[]; // гномья
-  //   shell(arr: number[]): number[]; // Шелла
-  //   counting(arr: number[]): number[]; // подсчетом
+  gnome(ar: number[]): number[]; // гномья
+  //   shell(ar: number[]): number[]; // Шелла
+  //   counting(ar: number[]): number[]; // подсчетом
 }
 
 export class SortArray implements ISortArray {
@@ -75,5 +75,20 @@ export class SortArray implements ISortArray {
     const arL = this.merge(arr.slice(0, mid));
     const arR = this.merge(arr.slice(mid));
     return this.merge2arr(arL, arR);
+  }
+  gnome(ar: number[]): number[] {
+    const arr = [...ar]; // антимутаген =)
+    if (arr.length <= 1) return arr;
+    const l = arr.length;
+    let i = 1;
+    while (i < l) {
+      if (i > 0 && arr[i - 1] > arr[i]) {
+        [arr[i], arr[i - 1]] = [arr[i - 1], arr[i]];
+        i--;
+      } else {
+        i++;
+      }
+    }
+    return arr;
   }
 }

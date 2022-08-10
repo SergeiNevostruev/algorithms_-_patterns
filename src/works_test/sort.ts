@@ -25,3 +25,8 @@ console.time("merge_sort");
 const mergeArray = sort.merge(array);
 console.timeEnd("merge_sort");
 console.log("Сортировка слиянием ====>", mergeArray);
+
+console.time("gnome_sort");
+const gnomeArray = sort.gnome(array);
+console.timeEnd("gnome_sort");
+console.log("Сортировка слиянием ====>", gnomeArray);
