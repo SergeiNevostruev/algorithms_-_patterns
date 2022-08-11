@@ -29,4 +29,19 @@ console.log("Сортировка слиянием ====>", mergeArray);
 console.time("gnome_sort");
 const gnomeArray = sort.gnome(array);
 console.timeEnd("gnome_sort");
-console.log("Сортировка слиянием ====>", gnomeArray);
+console.log("Сортировка гномья ====>", gnomeArray);
+
+console.time("shell_sort");
+const shellArray = sort.shell(array);
+console.timeEnd("shell_sort");
+console.log("Сортировка Шелла ====>", shellArray);
+
+console.time("quick_sort");
+const quickArray = sort.quickSort(array);
+console.timeEnd("quick_sort");
+console.log("Сортировка быстрая ====>", quickArray);
+
+console.time("counting_sort");
+const countingArray = sort.counting(array);
+console.timeEnd("counting_sort");
+console.log("Сортировка подсчетом ====>", countingArray);

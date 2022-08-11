@@ -3,9 +3,11 @@ interface ISortArray {
   selection(ar: number[]): number[]; // выбором O(n2)
   inserts(ar: number[]): number[]; // вставками O(n2)
   merge(ar: number[]): number[]; // слиянием O(n * log n)
-  gnome(ar: number[]): number[]; // гномья
-  //   shell(ar: number[]): number[]; // Шелла
-  //   counting(ar: number[]): number[]; // подсчетом
+  gnome(ar: number[]): number[]; // гномья O(n2)
+  shell(ar: number[]): number[]; // Шелла (оптимизация сортировки вставками) от O(n * log n) до O(n2)
+  сomb(ar: number[]): number[]; // Расческой (оптимизация сортировки пузырьком) от O(n * log n) до O(n2)
+  quickSort(ar: number[]): number[]; // Быстрая сортировка O(n * log n) в среднем
+  counting(ar: number[]): number[]; // подсчетом
 }
 
 export class SortArray implements ISortArray {
@@ -87,6 +89,89 @@ export class SortArray implements ISortArray {
         i--;
       } else {
         i++;
+      }
+    }
+    return arr;
+  }
+  shell(ar: number[]): number[] {
+    const arr = [...ar]; // антимутаген =)
+    if (arr.length <= 1) return arr;
+    const l = arr.length;
+    let gap = Math.floor(l / 2);
+    while (gap >= 1) {
+      for (let i = gap; i < l; i++) {
+        const copy = arr[i];
+        let j = i;
+        while (j > 0 && arr[j - gap] > copy) {
+          arr[j] = arr[j - gap];
+          j -= gap;
+        }
+        arr[j] = copy;
+      }
+      gap = Math.floor(gap / 2);
+    }
+    return arr;
+  }
+  сomb(ar: number[]): number[] {
+    const arr = [...ar]; // антимутаген =)
+    if (arr.length <= 1) return arr;
+    const l = arr.length;
+    const factor = 1.247; // фактор уменьшения
+    let gapFactor = l / factor;
+    while (gapFactor > 1) {
+      const gap = Math.round(gapFactor);
+      for (let i = 0, j = gap; j < l; i++, j++) {
+        if (arr[i] > arr[j]) {
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+      }
+      gapFactor = gapFactor / factor;
+    }
+    return arr;
+  }
+  quickSort(ar: number[]): number[] {
+    const arr = [...ar]; // антимутаген =)
+    if (arr.length < 2) {
+      return arr;
+    }
+    const pivot = arr[Math.floor(Math.random() * arr.length)]; // рандомный выбор точки деления
+
+    let left = [];
+    let right = [];
+    let equal = [];
+
+    for (let val of arr) {
+      // в цикле раскидываются цыфры на два массива относительно точки деления
+      if (val < pivot) {
+        left.push(val);
+      } else if (val > pivot) {
+        right.push(val);
+      } else {
+        equal.push(val);
+      }
+    }
+    return [...this.quickSort(left), ...equal, ...this.quickSort(right)]; // массив собирается, а для разбитых уменьшенных массивов повторяется операция рекурсивно
+  }
+  counting(ar: number[]): number[] {
+    const arr = [...ar]; // антимутаген =)
+    if (arr.length <= 1) return arr;
+    const min = Math.min(...arr);
+    const max = Math.max(...arr);
+    let i = min,
+      j = 0,
+      len = arr.length,
+      count = [];
+    for (i; i <= max; i++) {
+      count[i] = 0;
+    }
+    for (i = 0; i < len; i++) {
+      count[arr[i]] += 1;
+    }
+    for (i = min; i <= max; i++) {
+      while (count[i] > 0) {
+        arr[j] = i;
+        j++;
+        count[i]--;
       }
     }
     return arr;
